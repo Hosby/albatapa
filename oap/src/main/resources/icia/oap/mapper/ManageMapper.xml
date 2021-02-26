@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="icia.oap.mapper.ManageMapper">
+	<select id="getzCode" resultType="icia.oap.beans.ManageBean">
+		<![CDATA[
+			SELECT TL_NUMBER AS TLNUMBER, TL_COMMENT AS TLCOMMENT FROM TL
+		]]> 
+	</select>
+
+		
+</mapper>	
