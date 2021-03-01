@@ -70,7 +70,7 @@ public class ManageController {
 	}
 	
 	// 업무 관리  - 등록되어있는 업무리스트 확인 ( 알바생이 해야할 일 )
-	@RequestMapping(value = "/Work", method = RequestMethod.GET)
+	@RequestMapping(value = "/Work", method = RequestMethod.POST)
 	public ModelAndView work(@ModelAttribute ManageBean mBean) {
 		return mInquiery.entrance(mBean);
 	}

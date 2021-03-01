@@ -9,8 +9,6 @@ div {
 	color:white;
 	margin: 10px 15px 0px 5px;
 	position: absolute;
-	top: 50px;
-	left: 680px;
 	border-radius: 3px;
 	width:70px;
 	height:35px;
@@ -25,18 +23,13 @@ div {
 .taskcon {
 	font-weight: bold;
 	position: absolute;
-	left: 30px;
-	top: 50px;
 }
 
 .choiceTime {
 	border: 1px solid #BBBBBB;
-	position: absolute;
-	top: 100px;
 	width: 400px;
 	padding: 15px 10px;
 	border-radius: 3px;
-	left: 30px;
 	background-color:#FFFFCC;
 }
 
@@ -60,9 +53,6 @@ div {
 	padding: 20px 10px;
 	margin: 30px 10px;
 	border-radius: 5px;
-	position: absolute;
-	left: 20px;
-	top: 150px;
 	background-color:#FFFFCC;
 }
 
@@ -74,7 +64,6 @@ div {
 	margin: 30px 10px;
 	border-radius: 5px;
 	position: absolute;
-	left: 20px;
 	top: 250px;
 	background-color:#FFFFCC;
 }
@@ -87,7 +76,6 @@ div {
 	margin: 30px 10px;
 	border-radius: 5px;
 	position: absolute;
-	left: 20px;
 	top: 350px;
 	background-color:#FFFFCC;
 }
@@ -107,21 +95,18 @@ div {
 
 .task-content {
 	position: absolute;
-	left: 15%;
 	font-weight: 600;
 }
 
 .addimg {
 	position: absolute;
 	margin: 0px 5px;
-	right: 18%;
 	font-weight: 500;
 }
 
 .addmail {
 	position: absolute;
 	margin: 0px 5px;
-	right: 12%;
 	font-weight: 500;
 }
 

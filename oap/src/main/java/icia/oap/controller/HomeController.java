@@ -29,7 +29,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home() {
 		mv = new ModelAndView();
-		mv.setViewName("home");
+		mv.setViewName("manage");
 		return mv;
 	}
 	

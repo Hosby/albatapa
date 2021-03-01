@@ -28,7 +28,7 @@ public class ManagementInquiery {
 	public ModelAndView entrance(ManageBean mBean) {
 		
 		//switch(mBean.getZCode()) {
-		//case "A":
+		//case "5":
 			mav = workCtl(mBean);
 			//break;
 		//}
@@ -41,10 +41,9 @@ public class ManagementInquiery {
 		mav = new ModelAndView();
 		
 		/* Work Info & Convert to JSON */
-		System.out.println(mBean);
 		String jsonData = gson.toJson(this.getzCode(mBean));
 		System.out.println(jsonData);
-		mav.addObject("WorkData", jsonData);
+		mav.addObject("workData", jsonData);
 		
 		/* View */
 		mav.setViewName("work");
