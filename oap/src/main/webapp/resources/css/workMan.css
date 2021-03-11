@@ -1,7 +1,10 @@
 @charset "UTF-8";
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap');
 body {
 	width: 100%;
+	height : 100%;
+	font-family: 'Noto Sans KR', sans-serif
 }
 
 /* 뼈대  */
@@ -12,12 +15,14 @@ body {
 }
 
 .test1 {
+	width : 100%;
+	height : 100%;
 	border-bottom: 1px solid;
 }
 
 .test2 {
 	width: 10%;
-	height: 543px;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	border-right: 1px solid;
@@ -37,7 +42,6 @@ body {
 	padding: 15px;
 	cursor: pointer;
 	margin-left: 30px;
-	font-family: "궁서체";
 	font-size: 55px;
 }
 
@@ -78,5 +82,7 @@ body {
 
 /* 내용  */
 .test3 {
-	width: 90%;
+	width: 100%;
+	height: 100%;
 }
+

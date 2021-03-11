@@ -1,5 +1,7 @@
 package icia.oap.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import icia.oap.beans.AuthBean;
@@ -70,10 +73,24 @@ public class ManageController {
 	}
 	
 	// 업무 관리  - 등록되어있는 업무리스트 확인 ( 알바생이 해야할 일 )
-	@RequestMapping(value = "/Work", method = RequestMethod.POST)
+	@RequestMapping(value = "/Work", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView work(@ModelAttribute ManageBean mBean) {
+		mBean.setSCode("Work");
+		mBean.setAbCode("100000000");
+		mBean.setShCode("100000000");
 		return mInquiery.entrance(mBean);
 	}
+	
+	// 업무 관리  - 등록되어있는 업무리스트 확인 ( 알바생이 해야할 일 )
+		@RequestMapping(value = "/WorkType", method = {RequestMethod.GET, RequestMethod.POST})
+		@ResponseBody
+		public String tlCommentData(@ModelAttribute ManageBean mBean) throws UnsupportedEncodingException {
+			mBean.setSCode("WorkType");
+			mBean.setShCode("100000000");
+			System.out.println(mBean.getTlNumber());
+			mav = mInquiery.entrance(mBean);
+			return URLEncoder.encode(mav.getModel().get("tlCommentData").toString(),"UTF-8");
+		}
 	
 	// 업무 관리 - 파트타임 별로 클릭햇을 때 해당 시간파트만 보기위해 클릭하는 기능
 	@RequestMapping(value = "/SelectTime", method = RequestMethod.GET)
@@ -132,14 +149,21 @@ public class ManageController {
 	/* ------------------------- 관리자 - 등록  ------------------------- */
 	
 	// 업무 관리 - 업무 추가하기      sCode :: 1
-	@RequestMapping(value = "/AddWork", method = RequestMethod.GET)
+	@RequestMapping(value = "/WorkAdd", method = RequestMethod.GET)
 	public ModelAndView addWork(@ModelAttribute ManageBean mBean) {
+		mBean.setSCode("WorkAdd");
+		mBean.setMnCode("10000000");
 		return mEnroll.entrance(mBean);
 	}
 	
 	// 업무 관리 - 업무 추가하기 화면이동 후 추가시키는 요청을 날릴 때    sCode :: 2
-	@RequestMapping(value = "/WorkAdd", method = RequestMethod.GET)
+	@RequestMapping(value = "/WorkAddComplete", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView workAdd(@ModelAttribute ManageBean mBean) {
+		
+		System.out.println("workadd 진입");
+		System.out.println("mBean.getShCode()::" + mBean.getShCode());
+		System.out.println("mBean.getMtDetail()::"+mBean.getMtDetail());
+		System.out.println("mBean.getTlNumber()::"+mBean.getTlNumber());
 		return mEnroll.entrance(mBean);
 	}
 	
@@ -153,16 +177,36 @@ public class ManageController {
 	
 	/* ------------------------- 관리자 - 수정  ------------------------- */
 
-	// 업무 관리 - 업무내용 수정하기  
-	@RequestMapping(value = "/Change", method = RequestMethod.GET)
+	// 업무 관리 - 업무내용 수정하기 버튼 누르면 보이는 새창 페이지  
+	@RequestMapping(value = "/Change", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView change(@ModelAttribute ManageBean mBean) {
+		System.out.println("안녕");
+		System.out.println("상세내용 =" + mBean.getMtDetail());
+		mBean.setSCode("Change");
+		mBean.setMnCode("10000000");
+		mBean.setShCode("100000000");
+		return mModify.entrance(mBean);
+	}
+	
+	@RequestMapping(value = "/ChangeComplete", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView changeComplete(@ModelAttribute ManageBean mBean) {
+		mBean.setSCode("ChangeComplete");
+		System.out.println("mBean.getMtDetail()="+mBean.getMtDetail());
+		System.out.println("mBean.getEditMtDetail()="+mBean.getEditMtDetail());
+		System.out.println("mBean.getShCode()="+mBean.getShCode());
+		System.out.println("mBean.getTlNumber()="+mBean.getTlNumber());
 		return mModify.entrance(mBean);
 	}
 	
 	// 업무 관리 - 업무내용 삭제하기  
-	@RequestMapping(value = "/Drop", method = RequestMethod.GET)
-	public ModelAndView drop(@ModelAttribute ManageBean mBean) {
-		return mModify.entrance(mBean);
+
+	@RequestMapping(value = "/Drop", method = {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public String drop(@ModelAttribute ManageBean mBean) throws UnsupportedEncodingException {
+		mBean.setSCode("Drop");
+		mav =  mModify.entrance(mBean);
+		System.out.println("mav.getModel().get(\"deleteState\").toString():: " + mav.getModel().get("deleteState").toString());
+		return URLEncoder.encode(mav.getModel().get("deleteState").toString(),"UTF-8"); 
 	}
 	
 	// 일정 관리 - 일정 삭제하기

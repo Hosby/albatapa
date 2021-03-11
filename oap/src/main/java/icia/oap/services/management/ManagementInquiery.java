@@ -27,11 +27,14 @@ public class ManagementInquiery {
 	
 	public ModelAndView entrance(ManageBean mBean) {
 		
-		//switch(mBean.getZCode()) {
-		//case "5":
-			mav = workCtl(mBean);
-			//break;
-		//}
+		switch(mBean.getSCode()) {
+		case "Work":
+			mav = this.workCtl(mBean);
+			break;
+		case "WorkType":
+			mav = this.WorkTypeCtl(mBean);
+			break;
+		}
 		
 		return mav;
 	}
@@ -41,18 +44,67 @@ public class ManagementInquiery {
 		mav = new ModelAndView();
 		
 		/* Work Info & Convert to JSON */
-		String jsonData = gson.toJson(this.getzCode(mBean));
-		System.out.println(jsonData);
-		mav.addObject("workData", jsonData);
+		
+		// 전체 업무리스트 조회
+		String allTaskList = gson.toJson(this.getAllTaskList(mBean));
+		System.out.println(allTaskList);
+		mav.addObject("allTaskList", allTaskList);
+		
+		// 총 업무는 n개 입니다. 조회
+		System.out.println(this.getCountTask(mBean));
+		mav.addObject("countTask", this.getCountTask(mBean));
+		
+		String selectTaskList = gson.toJson(this.getTlCommentData(mBean));
+		mav.addObject("tlCommentData", selectTaskList);
 		
 		/* View */
 		mav.setViewName("work");
 		return mav;
 	}
 	
-	private ArrayList<ManageBean> getzCode(ManageBean mBean){
+	private ModelAndView WorkTypeCtl(ManageBean mBean) {
+		mav = new ModelAndView();
+		
+		/* Work Info & Convert to JSON */
+		
+		// 부분 업무리스트 조회
+		
+		String selectTaskList = gson.toJson(this.getTlCommentData(mBean));
+		System.out.println(selectTaskList);
+		mav.addObject("tlCommentData", selectTaskList);
+		
+		return mav;
+	}
+	
+	
+	
+	// 안씀
+	private ArrayList<ManageBean> getzCode(ManageBean mBean) {
 		
 		return mapperM.getzCode(mBean);
+	}
+	
+	// 어디 매장 업무리스트 조회
+	private ArrayList<ManageBean> getAllTaskList(ManageBean mBean) {
+		
+		return mapperM.getAllTaskList(mBean);
+	}
+	
+	private ArrayList<ManageBean> getTlCommentData(ManageBean mBean) {
+		
+		return mapperM.getTlCommentData(mBean);
+	
+	}
+	
+	// 어디 매장 알바생 업무리스트 개수(카운트) 조회
+	private int getCountTask(ManageBean mBean) {
+		
+		return mapperM.getCountTask(mBean);
+	}
+	
+	// 최종 update, delete 할 때 쓸것.
+	private boolean convertToboolean(int value) {
+		return value==1? true : false;
 	}
 //-------------------------------------------------------------------------------------------------------
 	

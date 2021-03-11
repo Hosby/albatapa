@@ -1,7 +1,13 @@
 @charset "UTF-8";
 
-#taskList {
-	padding: 100px;
+#selectShCode {
+	width:300px;
+	height:45px;
+	margin: 10px 600px;
+}
+
+#taskBoxDiv{
+	margin: 10px 400px;
 }
 
 .title{

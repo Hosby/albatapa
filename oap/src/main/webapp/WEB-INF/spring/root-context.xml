@@ -21,6 +21,7 @@
 		<property name="jdbcUrl" value="jdbc:oracle:thin:@db.abtp.hoonzzang.com:7011:xe"></property>
 		<property name="username" value="HOSB"></property>
 		<property name="password" value="1122"></property>
+		<property name="maximumPoolSize" value="10"></property>
 	</bean>
 
 	<!-- DBCP 정보 -->
