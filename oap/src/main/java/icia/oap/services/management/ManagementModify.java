@@ -71,6 +71,8 @@ public class ManagementModify {
 		
 		mav.addObject("mtDetail", mBean.getMtDetail());
 		
+		mav.addObject("tlNumber", mBean.getTlNumber());
+		
 		mav.setViewName("editWork");
 		
 		return mav;

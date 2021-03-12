@@ -17,4 +17,5 @@ public class ManageBean {
 	private String shName;
 	private String mnCode;
 	private String editMtDetail;
+	private String editTlNumber;
 }

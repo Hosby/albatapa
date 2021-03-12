@@ -36,13 +36,14 @@ let task = JSON.parse('${allTaskList}');
 						
 						let countTask = document.createElement('div');
 						countTask.className = "countTask";
-						countTask.textContent = "총 " + ${countTask } + "개의 업무가 있습니다.";
+						countTask.textContent = "총  ${countTask } 개의 업무가 있습니다.";
+						countTask.id = "countTask";
 						
 							let addTask = document.createElement('input');
 							addTask.type = "button";
 							addTask.style.cursor = "pointer";
 							addTask.addEventListener('click', function(){
-								 window.open("/WorkAdd", "업무 추가", "width=550, height=450, menubar=no, status=no, toolbar=no")
+								 window.open("/WorkAdd", "업무 추가", "width=550, height=450, left=450, top=100, menubar=no, status=no, toolbar=no")
 							});
 							addTask.value = "업무 추가";
 							addTask.className = "addTask";
@@ -52,9 +53,9 @@ let task = JSON.parse('${allTaskList}');
 							addTask.style.backgroundRepeat = "no-repeat";
 							
 							
-							countTask.appendChild(addTask);
+						countTask.appendChild(addTask);
 						
-						title.appendChild(countTask);
+					title.appendChild(countTask);
 						
 						let selectTime = document.createElement('div');
 						selectTime.className = "selectTime";
@@ -231,15 +232,22 @@ let task = JSON.parse('${allTaskList}');
 		form.method = "post";
 		form.target = "pop";
 		
+		// 보낼 값 input 박스에 숨김 -> 업무 내용
 		var box1 = document.createElement("input");
 		box1.type = "hidden";
 		box1.name = "mtDetail";
 		box1.value = task[num].mtDetail;
 		box1.id = "mtDetail";
-
-		// 보낼 값 input 박스에 숨김
-
+		
+		// 보낼 값 input 박스에 숨김 -> 업무 번호 넘기기
+		var box2 = document.createElement("input");
+		box2.type = "hidden";
+		box2.name = "tlNumber";
+		box2.value = task[num].tlNumber;
+		box2.id = "tlNumber";
+		
 		form.appendChild(box1);
+		form.appendChild(box2);
 
 		document.body.appendChild(form);
 		
@@ -256,15 +264,22 @@ let task = JSON.parse('${allTaskList}');
 		form.method = "post";
 		form.target = "pop";
 		
+		// 보낼 값 input 박스에 숨김
 		var box1 = document.createElement("input");
 		box1.type = "hidden";
 		box1.name = "mtDetail";
 		box1.value = taskInfo[num].mtDetail;
 		box1.id = "mtDetail";
-
-		// 보낼 값 input 박스에 숨김
+		
+		// 보낼 값 input 박스에 숨김 -> 업무 번호 넘기기
+		var box2 = document.createElement("input");
+		box2.type = "hidden";
+		box2.name = "tlNumber";
+		box2.value = task[num].tlNumber;
+		box2.id = "tlNumber";
 
 		form.appendChild(box1);
+		form.appendChild(box2);
 
 		document.body.appendChild(form);
 		
@@ -298,6 +313,30 @@ let task = JSON.parse('${allTaskList}');
 		for (i = 0; i < tlCommentData.length; i++) {
 		let num = i;
 		let taskIndex = i;
+		
+		
+		let countTask2 = document.getElementById('countTask');
+		countTask2.className = "countTask";
+		countTask2.textContent = "총 " + tlCommentData.length + " 개의 업무가 있습니다.";
+		
+		
+			let addTask = document.createElement('input');
+			addTask.type = "button";
+			addTask.style.cursor = "pointer";
+			addTask.addEventListener('click', function(){
+				 window.open("/WorkAdd", "업무 추가", "width=550, height=450, left=450, top=100, menubar=no, status=no, toolbar=no")
+			});
+			addTask.value = "업무 추가";
+			addTask.className = "addTask";
+			addTask.style.backgroundImage = "url('/resources/img/plus.png')";
+			addTask.style.backgroundPosition = "92px 1px";
+			addTask.style.backgroundSize = "30px 30px";
+			addTask.style.backgroundRepeat = "no-repeat";
+			
+			
+		countTask.appendChild(addTask);
+		
+		
 
 			let taskBoxDiv = document.createElement('div');
 			taskBoxDiv.className = "taskBoxDiv";
@@ -399,6 +438,7 @@ let task = JSON.parse('${allTaskList}');
 				console.log(tlNumber);
 				if (deleteState == 1) {
 					alert("업무 삭제가 완료 되었습니다.");
+					location.reload();
 				} else if (deleteState == 0) {
 					alert("업무 삭제를 실패 하였습니다.");
 				}
@@ -441,6 +481,27 @@ let task = JSON.parse('${allTaskList}');
 	
 	function initAll() 
 	{
+		
+		let countTask2 = document.getElementById('countTask');
+		countTask2.className = "countTask";
+		countTask2.textContent = "총 " + task.length + " 개의 업무가 있습니다.";
+		
+		let addTask = document.createElement('input');
+		addTask.type = "button";
+		addTask.style.cursor = "pointer";
+		addTask.addEventListener('click', function(){
+			 window.open("/WorkAdd", "업무 추가", "width=550, height=450, left=450, top=100, menubar=no, status=no, toolbar=no")
+		});
+		addTask.value = "업무 추가";
+		addTask.className = "addTask";
+		addTask.style.backgroundImage = "url('/resources/img/plus.png')";
+		addTask.style.backgroundPosition = "92px 1px";
+		addTask.style.backgroundSize = "30px 30px";
+		addTask.style.backgroundRepeat = "no-repeat";
+		
+		
+		countTask.appendChild(addTask);
+		
 		for (i = 0; i < task.length; i++) {
 			let num = i;
 			let taskIndex = i;

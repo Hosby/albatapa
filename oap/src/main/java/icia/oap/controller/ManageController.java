@@ -182,9 +182,11 @@ public class ManageController {
 	public ModelAndView change(@ModelAttribute ManageBean mBean) {
 		System.out.println("안녕");
 		System.out.println("상세내용 =" + mBean.getMtDetail());
+		System.out.println("mBean.getTlNumber()=" + mBean.getTlNumber());
 		mBean.setSCode("Change");
 		mBean.setMnCode("10000000");
 		mBean.setShCode("100000000");
+		
 		return mModify.entrance(mBean);
 	}
 	
@@ -195,6 +197,7 @@ public class ManageController {
 		System.out.println("mBean.getEditMtDetail()="+mBean.getEditMtDetail());
 		System.out.println("mBean.getShCode()="+mBean.getShCode());
 		System.out.println("mBean.getTlNumber()="+mBean.getTlNumber());
+		System.out.println("mBean.getEditTlNumber()="+mBean.getEditTlNumber());
 		return mModify.entrance(mBean);
 	}
 	

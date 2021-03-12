@@ -99,12 +99,14 @@
 function goEdit() {
 	
 	let shCode = document.getElementById("name").value;
-	let tlComment = document.getElementById("tlComment").value;
-	let editMtDetail = document.getElementById("editMtDetail").value; // 클라이언트가 수정을 요청한 값 (변경할 값)
-	let mtDetail = "${mtDetail}"; // 클라이언트에서 보이는 값 (기존 값)
+	let editTlNumber = document.getElementById("tlComment").value; // 클라이언트가 수정을 요청한 값 (변경할 값) -업무 타입
+	let editMtDetail = document.getElementById("editMtDetail").value; // 클라이언트가 수정을 요청한 값 (변경할 값) - 업무상세내용
+	
+	let mtDetail = "${mtDetail}"; // 클라이언트에서 보이는 값 (기존 값) - 업무상세내용
+	let tlNumber = "${tlNumber}"; // 클라이언트에서 보이는 값 (기존 값) - 업무 타입
 	
 	
-	//alert(shCode + "-" + tlComment + "-" + mtDetail + "-" + editMtDetail);
+	alert("shCode::"+shCode + "-" + "tlNumber::" + tlNumber + "-" + "editTlNumber::" + editTlNumber + "-" + "mtDetail::" + mtDetail + "-" + "editMtDetail::" + editMtDetail );
 	     
      
 	let request = new XMLHttpRequest();
@@ -120,8 +122,8 @@ function goEdit() {
 		request.setRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded;charset=UTF-8");
 		request.send("sCode=ChangeComplete" + "&shCode=" + shCode
-				+ "&tlNumber=" + tlComment + "&mtDetail=" + mtDetail
-				+ "&editMtDetail=" + editMtDetail);
+				+ "&tlNumber=" + tlNumber + "&mtDetail=" + mtDetail
+				+ "&editMtDetail=" + editMtDetail + "&editTlNumber=" + editTlNumber);
 
 	}
 
