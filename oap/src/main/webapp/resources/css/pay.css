@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+.bone{
+	display:table;
+	border-bottom:1px solid #C6C6C5;
+	border-top : 1px solid #C6C6C5;
+	width:900px;
+	height:30px;
+	font-weight:700;
+	text-align:center;
+	vertical-align:middle;
+	font-size:20px;
+	margin-left:20px;
+	margin-top:30px;
+}
+
+.alldiv{
+	display:table;
+	border-bottom:1px solid #C6C6C5;
+	width:900px;
+	height:50px;
+	text-align:center;
+	vertical-align:middle;
+	font-size:18px;
+	margin-left:20px;
+	margin:20px;
+}
+
+.shName{
+	width:280px;
+	margin-right: 22px;
+}
+
+.aName{
+	width:280px;
+}
+
+.paName{
+	width:280px;
+	margin-left: 20px;
+}
+
+.bone_top{
+	display:table-row;
+	border:none;
+	background: #EEEEEE;
+}
+
+.storename{
+	display:table-cell;
+	border-right:1px solid #C6C6C5;
+	height:30px;
+	vertical-align:middle;
+}
+
+.abname{
+	display:table-cell;
+	border-right:1px solid #C6C6C5;
+	height:45px;
+	vertical-align:middle;
+}
+
+.paylist{
+	display:table-cell;
+	height:30px;
+	vertical-align:middle;
+}
+
+
+.date{
+	position:absolute;
+	right:0;
+}
+
+#box1{
+	
+}
+
+.option1{
+	width:110px;
+	height:30px;
+}
+
+#box2{
+	
+}
+
+.option2{
+	width:110px;
+	height:30px;
+}
+
+.input1{
+	border: 1px solid #EEEEEE; 
+	width:60px;
+	height:30px;
+	background-color:#666666;
+	color:white;
+	font-size:15px;
+	
+}
+.input1:hover{
+	background-color:#222222;
+}
+
+.adder{
+	border: 1px solid #EEEEEE; 
+	width:60px;
+	height:30px;
+	background-color:#666666;
+	color:white;
+	font-size:15px;
+}
+
+.adder:hover{
+	background-color:#222222;
+}
+
+.another{
+	position:relative;
+	width:915px;
+}

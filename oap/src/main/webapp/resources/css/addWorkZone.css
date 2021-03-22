@@ -1,0 +1,89 @@
+@charset "UTF-8";
+div{
+	display: inline-block;
+	margin: 5px 10px;
+}
+input{
+	border:0px;
+	border-bottom:1px solid;
+}
+select{
+	margin:0px 10px;
+}
+.searchStore{
+	margin:5px 10px;
+	border-color:#6D6D6D;
+	border:1px solid;
+}
+.shopbox{
+	border: 1px solid;
+	width:700px;
+	padding: 10px;
+	border-radius:5px;
+	
+}
+.shopaddr{
+		margin:0px 15px;
+	
+}
+.shopName2{
+		margin:0px 15px;
+}
+.shopNumber2{
+		margin:0px 40px;
+}
+.shopPhone2{
+		margin:0px 15px;
+}
+.shopResult{
+			margin:0px 15px;
+	width:300px;
+}
+.shopPhone{
+	display:block;
+	
+}
+.shopPhone2{
+		margin:0px 15px;
+	width:250px;
+}
+
+.shopNumber2{
+	width:250px;
+	
+}
+
+.kindshop{
+	display:block;
+}
+
+
+
+.resultfile{
+	margin: 0px 5px;
+}
+
+.addimg label{
+	display: inline-block; 
+	padding: 3px 15px; 
+	color: black; 
+	line-height: normal; 
+	vertical-align: middle;
+	background-color:#C6C6C5; 
+	cursor: pointer;
+	 border: 1px solid #ebebeb;
+	 border-radius: 5px;
+	 font-size:12px;
+}
+.addimg input[type="file"]{
+	position: absolute;
+	 width: 1px; 
+	 height: 1px;
+	  padding: 0;
+	   margin: -1px;
+	   overflow: hidden; 
+	   clip:rect(0,0,0,0); 
+	   border: 0;
+
+
+}

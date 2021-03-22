@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+
+/* --------------------------------------------------------------------------------------------------- */
+
+.position{
+	
+	position: relative;
+}
+
+.officer{
+	width:450px;
+	height:140px;
+	top : 23px;
+	left : 23px;
+	margin-bottom : 15px;
+	position:relative;
+	border-bottom: 1px solid gray;
+    border-top: 1px solid gray;
+}
+
+.officerTitle {
+	position:absolute;
+	left:32%;
+	top:14%;
+	margin:0;
+	font-weight: 600;
+	padding: 8px;
+}
+
+.offimg{
+	border:none;
+	width:100px;
+	height:100px;
+	position:absolute;
+}
+
+.oname {
+	position:absolute;
+	left:38%;
+	top:57%;
+	margin:0;
+	font-size: 16px;
+    color: brown;
+}
+
+.omember {
+	position:absolute;
+	left:33%;
+	bottom:24%;
+	margin:0;
+}
+
+.apply_btn1 {
+    position: absolute;
+    right: 1%;
+    top: 22%;
+    background-color: white;
+    border: 1px none gray;
+    border-radius: 3px;
+}
+
+.apply_btn2 {
+    position: absolute;
+    right: 1%;
+    bottom: 24%;
+    background-color: white;
+    border: 1px none gray;
+    border-radius: 3px;
+}
+
+.apply_btn1:hover, .apply_btn2:hover{
+	font-weight: 900;
+	font-size: 15px;
+}
+

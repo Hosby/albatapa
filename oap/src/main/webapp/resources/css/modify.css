@@ -1,0 +1,70 @@
+@charset "UTF-8";
+
+.large {
+	border-top:1px solid gray;
+	border-bottom:1px solid gray;
+	width:900px;
+}
+
+.space {
+	border-top:1px solid gray;
+	border-bottom:1px solid gray;
+	display:flex;
+	width:900px;
+}
+
+.littleSpace {
+	width:690px;
+	display:flex;
+	flex-direction: column;
+}
+
+.title {
+	margin-right:10px;
+	border-right:2px solid gray;
+	padding:20px;
+	font-size: 20px;
+	width:150px;
+	background-color: #CED4DA;
+}
+
+.spaceright {
+	font-size: 20px;
+	padding:20px 10px 20px 5px;
+}
+
+.buttonlocation {
+	padding:10px;
+	margin-left:560px;
+}
+
+.button1 {
+	width:80px;
+	background-color: white;
+	border-radius:5px;
+	
+}
+
+#myButton3, .button2{
+	width:80px;
+	background-color: white;
+	border-radius:5px;
+	display: inline-block;
+	padding: 5px;
+	
+	
+}
+
+#groupDiv {
+	display: inline-block;
+}
+
+#passwordEdit , #nameEdit , #accountEdit, #accountAdd{
+	display:none;
+}
+
+.noborder{
+	border:0px;
+	font-size:20px;
+}
+

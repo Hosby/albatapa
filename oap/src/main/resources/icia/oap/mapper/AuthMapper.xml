@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="icia.oap.mapper.AuthMapper">
+
+	<select id="isMemberAlba" resultType="int">
+		SELECT COUNT(*) FROM AB
+		WHERE AB_ID=#{sId}
+	</select>
+
+	<select id="isPasswordAlba" resultType="int">
+		SELECT COUNT(*) FROM AB
+		WHERE AB_ID=#{sId} AND AB_PW=#{sPw}
+	</select>
+
+	<select id="isMemberManage" resultType="int">
+		SELECT COUNT(*) FROM MN
+		WHERE MN_ID=#{sId}
+	</select>
+
+	<select id="isPasswordManage" resultType="int">
+		SELECT COUNT(*) FROM MN
+		WHERE MN_ID=#{sId} AND MN_PW=#{sPw}
+	</select>
+	
+	<select id="maxCode" resultType="String">
+		SELECT MAX(AB_CODE)+1 FROM AB
+	</select>
+
+	<insert id="joinInsert">
+		INSERT INTO AB(AB_CODE, AB_ID, AB_PW, AB_NAME,
+		AB_PHONE, AB_BIRTH, AB_ADDR, AB_EMAIL, AB_GENDER)
+		VALUES(#{abCode}, #{sId}, #{sPw}, #{sName}, #{sPhone }, ${sBirth} , #{sAddr} , #{sEmail} , #{sGender})
+	</insert>
+
+	<insert id="accountInsert">
+		INSERT INTO AC(AC_ABCODE , AC_BANKNAME , AC_ACCOUNT) VALUES(#{abCode} , #{bankName} , #{sAccount})
+	</insert>
+	
+	<select id="getAlbaCode" resultType="String">
+		SELECT AB_CODE FROM AB WHERE AB_ID=#{sId}
+	</select>
+	
+	<select id="getManageCode" resultType="String">
+		SELECT MN_CODE FROM MN WHERE MN_ID=#{sId}
+	</select>
+
+	<select id="getDbPw" resultType="String">
+		SELECT AB_PW FROM AB WHERE AB_ID=#{sId}
+	</select>
+	
+	<!-- max codeManage 추가 -->
+	<select id="maxCodeManage" resultType="String">
+		SELECT MAX(MN_CODE)+1 FROM MN
+	</select>	
+	
+
+	<!-- join 관리자 추가 -->
+	<insert id="joinInsertManage">
+		INSERT INTO MN (MN_CODE, MN_PW, MN_NAME, MN_PHONE, MN_GENDER, MN_EMAIL, MN_BIRTH, MN_ID)
+		VALUES(#{mnCode}, #{sPw}, #{sName}, #{sPhone}, #{sGender}, #{sEmail}, ${sBirth}, #{sId})
+	</insert>	
+	
+</mapper>
+
+
+

@@ -1,0 +1,142 @@
+@charset "UTF-8";
+
+body{
+text-align:center;
+max-width:2000px;
+}
+
+.wrap{
+max-width:2000px;
+	width:1500px;
+	height:800px;
+	position:relative;
+}
+
+.imgbox{
+	position:absolute;
+	width:100px;
+	height:100px;
+	left:10.2%;
+	top:10%;
+}
+
+img{
+/* 	max-width:1024px; */
+/* 	text-align:center; */
+/* 	margin-bottom:4%; */
+}
+textarea{
+	width:500px;
+	height:200px;
+	font-size:9pt;
+	font-weight:bold;
+/* 	font-family:굴림,돋움,verdana; */
+	line-height:150%;
+	resize:none;
+	border-color:#C6C6C5;
+	color:#6D6D6D;
+	}
+
+.userpromise{
+	display:block;
+	font-size:20px;
+	font-weight:bold;
+	margin-right:40px;
+	text-align:left;
+	position:absolute;
+	top:41%;
+	left:16%;
+}
+.promisebox{
+	font-size:25px;
+	padding: 10px 0px;
+	color:#6D6D6D;
+	border-bottom:10px solid;
+	border-color:yellow;
+}
+.promisebox2{
+	font-size:25px;
+		padding: 10px 0px;
+		color:#6D6D6D;
+	border-bottom:10px solid;
+	border-color:green;
+}
+.userprivate{
+	font-size:20px;
+	font-weight:bold;
+	text-align:left;
+	display:block;
+	position:absolute;
+	top:41%;
+	left:51%;
+}
+.userbox{
+	display:flex;
+	justify-content:center;
+	width:1550px;
+	margin-bottom:20px;
+}
+.agree{
+		font-size:12px;
+	color:#6D6D6D;
+	text-align:left;
+	    margin-left: 20px
+}
+.allcheck{
+	padding:10px 0px;
+	width:500px;
+	height:20px;
+	border:1px solid;
+	font-size:13px;
+	border-color:#C6C6C5;
+	text-align:center;
+	margin-left:800px;
+	position:absolute;
+	bottom:16%;
+	right:234px;
+
+}
+.gobox{
+	margin-left: 143px;
+    margin-top: 20px;
+    display: inline-block;
+    width: 1550px;
+    position: absolute;
+    left: -2.1%;
+    bottom: -12%;
+}
+.gomain{
+	margin-right:10px;
+	border: none;
+	width: 100px;
+   	height: 41px;
+   	color:white;
+    background: #6D6D6D;
+    border-radius:4px;
+}
+
+.gomain:hover{
+	border:none;
+    background: #C6C6C5;
+    color:black;
+}
+
+
+.gonext{
+	height: 41px;
+	margin-right:10px;
+	margin-bottom:5%;
+	width:100px;
+	border:1px solid #6D6D6D;
+	border-radius:4px;
+}
+
+.gonext:hover{
+    background: #FEE300;
+}
+.gonext:focus{
+	border: none;
+}
+
+
+

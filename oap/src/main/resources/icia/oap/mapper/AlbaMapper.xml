@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="icia.oap.mapper.AlbaMapper">
+
+	<select id="getMoneyList" resultType="icia.oap.beans.Money">
+		SELECT MONEY , MCOUNT FROM
+		WLCHECK WHERE RTTYPE=#{rtType} AND RTTIME = (SELECT MAX(RTTIME) FROM
+		WLCHECK WHERE RTTYPE=#{rtType})
+	</select>
+	
+	<select id="maxNote" resultType="String">
+		SELECT WL_SPECIALNOTE FROM WL WHERE WL_TIME = (SELECT MAX(WL_TIME) FROM WL)
+	</select>	
+	
+	<select id="maxTime" resultType="String">
+		SELECT MAX(TO_CHAR((RT_TIME),'YYYYMMDDHH24MISS')) AS MAXTIME FROM RT WHERE RT_SIASHCODE=#{shCode}
+	</select>	
+	
+	<insert id="insertRt">
+		INSERT INTO RT(RT_SIASHCODE,RT_SIAABCODE,RT_TYPE) VALUES(#{shCode},#{abCode},#{rtType})
+	</insert>
+	
+	<insert id="insertRd">
+		INSERT INTO RD(RD_RTSHCODE,RD_RTABCODE,RD_RTTIME,RD_MONEYTYPE,RD_MONEYCOUNT)
+		VALUES(#{shCode},#{abCode},TO_DATE(#{maxTime},'YYYYMMDDHH24MISS'),#{mType},#{mCount})
+	</insert>
+	
+	<select id="myAlbaZone" resultType="icia.oap.beans.AlbaBean">
+		SELECT  SIA_SHCODE AS SHCODE,
+       		    SH_NAME AS SHNAME,
+       		    SH_IMG AS SHIMG,
+        		SH_TYPE AS SHTYPE,
+       		    SIA_ABCODE AS ABCODE,
+       		    AB_NAME AS ABNAME
+		FROM SIA INNER JOIN SH ON SIA_SHCODE = SH_CODE
+         		 INNER JOIN AB ON SIA_ABCODE = AB_CODE
+		WHERE SIA_ABCODE=#{abCode}
+	</select>	
+	
+	<select id="getPayCheck" resultType="icia.oap.beans.AlbaBean">
+		SELECT  SHCODE,SHNAME,SHTYPE,ABCODE,ABNAME,STARTTIME,ENDTIME,PANAME,
+        TO_CHAR(PD_STARTDATE,'YYYY-MM-DD') AS STARTDATE ,TO_CHAR(PD_ENDDATE,'YYYY-MM-DD') AS ENDDATE ,PD_PAYTOTAL AS PAYTOTAL
+		FROM PAYGROUP INNER JOIN PD ON SHCODE = PD_PASHCODE AND ABCODE = PD_PAABCODE AND PANAME = PD_PANAME WHERE ABCODE=#{abCode}
+	</select>	
+	
+	<!-- 알바가 선택한 매장의 업무리스트 가져오기 -->
+	<select id="getAlbaTaskListSelect" resultType="icia.oap.beans.AlbaBean">
+		<![CDATA[
+		
+		SELECT  MTD_MTSHCODE AS SHCODE,
+				SH_NAME AS SHNAME,
+		        MTD_MTTLNUMBER AS TLNUMBER,
+		        TL_COMMENT AS TLCOMMENT,
+		        MTD_MTDETAIL AS MTDETAIL,
+		        MTD_ABCODE AS ABCODE
+		FROM MTD INNER JOIN TL ON MTD.MTD_MTTLNUMBER = TL.TL_NUMBER
+				 INNER JOIN SH ON MTD.MTD_MTSHCODE = SH.SH_CODE
+		WHERE MTD_ABCODE = #{abCode} AND MTD_MTSHCODE = #{shCode}
+		]]> 
+	</select>
+	
+	<!-- 알바가 다니는 전체 매장 가져오기 -->
+	<select id="getAlbaShopList" resultType="icia.oap.beans.AlbaBean">
+		<![CDATA[
+			SELECT  SIA_SHCODE AS SHCODE,
+			        SH_NAME AS SHNAME
+			FROM SIA INNER JOIN SH ON SIA.SIA_SHCODE = SH.SH_CODE
+			WHERE SIA_ABCODE = #{abCode}
+		]]> 
+	</select>
+	
+	<!-- 알바가 선택한 매장의 업무 COUNT 하기 -->
+	<select id="getAlbaTaskListSelectCount" resultType="int">
+		<![CDATA[
+			SELECT  COUNT(*)
+			FROM MTD
+			WHERE MTD_ABCODE = #{abCode} AND MTD_MTSHCODE = #{shCode}
+		]]> 
+	</select>	
+
+	<select id="albaInclueShopInfo" resultType="icia.oap.beans.AlbaBean">
+		SELECT SIA_ABCODE AS "ABCODE",
+		       AB_NAME AS "ABNAME",
+		       SIA_SHCODE AS "SHCODE",
+		       SH_NAME AS "SHNAME"
+		FROM SIA INNER JOIN AB ON SIA.SIA_ABCODE = AB.AB_CODE
+		         INNER JOIN SH ON SIA.SIA_SHCODE = SH.SH_CODE
+		WHERE SIA_ABCODE = #{abCode}
+	</select>	
+
+	<select id="albaMyInfo" resultType="icia.oap.beans.AlbaBean">
+		SELECT AB_CODE AS "ABCODE",
+		       AB_NAME AS "ABNAME"
+		FROM AB
+		WHERE AB_CODE = #{abCode}
+	</select>
+
+
+	<!--  알바 지원에서내가 선택한 회사에 지원했을떄 계좌 수정하기위한  나의 정보에서 -->
+	<select id="albaApplyShopMyInfo" resultType="icia.oap.beans.AlbaBean">
+		SELECT SS_SHCODE AS "SHCODE",
+		       SS_ABCODE AS "ABCODE",
+		       SS_BANKNAME AS "SSBANKNAME",
+		       SS_ACCOUNT AS "SSACCOUNT",
+		       AB_NAME AS "ABNAME",
+		       AB_PHONE AS "ABPHONE",
+		       AB_BIRTH AS "ABBIRTH",
+		       AB_ADDR AS "ABADDR",
+		       AB_EMAIL AS "ABEMAIL",
+		       AB_GENDER AS "ABGENDER",
+		       AC_BANKNAME AS "ACBANKNAME",
+		       AC_ACCOUNT AS "ACACCOUNT"
+		FROM SS INNER JOIN AB ON SS.SS_ABCODE = AB.AB_CODE
+		        INNER JOIN AC ON AB.AB_CODE = AC.AC_ABCODE
+		WHERE SS_SHCODE = #{shCode} AND SS_ABCODE=#{abCode}
+	</select>
+
+
+	<!--  내가 지원한 매장리스트에서 계좌 수정 -->
+	<update id="albaApplyMyAccountUpdate">
+	<![CDATA[
+		UPDATE SS
+		SET SS_BANKNAME= #{acBankName},  SS_ACCOUNT = #{acAccount}
+		WHERE SS_SHCODE = #{shCode} AND SS_ABCODE=#{abCode}
+		]]> 
+	</update>
+	<!-- 내가 지원한 매장 리스트에서 선택해서 삭제 (지원취소) -->
+	<delete id="albaApplyDelete">
+	<![CDATA[
+		DELETE FROM SS 
+		WHERE SS_SHCODE = #{shCode} AND SS_ABCODE=#{abCode}
+	]]>
+	</delete>
+
+
+	<!-- 내가 지원한 매장 리스트 -->
+	<select id="albaApplyMyShopInquiry" resultType="icia.oap.beans.AlbaBean">
+		SELECT SS_SHCODE AS "SHCODE",
+		       SS_ABCODE AS "ABCODE",
+		       SH_NAME AS "SHNAME",
+		       SH_TYPE AS "SHTYPE",
+			   SH_ADDR AS "SHADDR",
+			   SH_TEL AS "SHTEL",
+		       SH_IMG AS "SHIMG"
+		FROM SS INNER JOIN SH ON SS.SS_SHCODE = SH.SH_CODE
+		WHERE SS_ABCODE = #{abCode}
+	</select>
+	
+
+
+	<!-- 내가 이 매장에 이미 지원했는지 체크. -->
+	<select id="albaApplyAlreadyCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM SS 
+		WHERE SS_SHCODE = #{shCode} AND SS_ABCODE = #{abCode}
+	</select>
+
+
+	<!-- 알바가 매장에 지원할떄 insert --> 
+     <insert id="albaApplyComplete">
+		INSERT INTO SS(SS_SHCODE,SS_ABCODE,SS_BANKNAME,SS_ACCOUNT,SS_TIME)
+	    VALUES(#{shCode}, #{abCode}, #{acBankName},#{acAccount}, DEFAULT)  
+	</insert>
+
+
+	<!--  알바 지원에서내가 선택한 회사에 지원했을떄 회사 상세 정보.-->
+	<select id="albaApplyShopDetailInfo" resultType="icia.oap.beans.AlbaBean">
+		SELECT SH_CODE AS "SHCODE",
+		       SH_TYPE AS "SHTYPE",
+		       SH_NAME AS "SHNAME",
+		       SH_ADDR AS "SHADDR",
+		       SH_TEL AS "SHTEL",
+		       MN_NAME AS "MNNAME",
+		       MN_PHONE AS "MNPHONE",
+		       SH_IMG AS "SHIMG"
+		FROM SH INNER JOIN MN ON SH.SH_MNCODE = MN.MN_CODE
+		WHERE SH_CODE = #{shCode}
+	</select>
+
+	<!--  알바 지원에서내가 선택한 회사에 지원했을떄 나의 정보.-->
+	<select id="albaApplyMyInfo" resultType="icia.oap.beans.AlbaBean">
+		SELECT AB_CODE AS "ABCODE",
+		       AB_NAME AS "ABNAME",
+		       AB_PHONE AS "ABPHONE",
+		       AB_BIRTH AS "ABBIRTH",
+		       AB_ADDR AS "ABADDR",
+		       AB_EMAIL AS "ABEMAIL",
+		       AB_GENDER AS "ABGENDER",
+		       AC_BANKNAME AS "ACBANKNAME",
+		       AC_ACCOUNT AS "ACACCOUNT"
+		FROM AB INNER JOIN AC ON AB.AB_CODE = AC.AC_ABCODE
+		WHERE AB_CODE = #{abCode}
+	</select>
+
+
+
+	<!-- 20210318 sh_applyState에 관한 조건문 달았음. 구직중인 상태(I)만 출력하게하기. -->
+	<select id="albaApplyShopInfo" resultType="icia.oap.beans.AlbaBean">
+		SELECT SH_CODE AS "SHCODE",
+		       SH_NAME AS "SHNAME",
+		       SH_TYPE AS "SHTYPE",
+		       SH_ADDR AS "SHADDR",
+		       SH_TEL AS "SHTEL"
+		FROM SH
+		WHERE SH_APPLYSTATE = 'I'
+		
+	</select>	
+	
+	
+	<select id="getScheduleList" resultType="icia.oap.beans.AlbaBean">
+		SELECT  MTD_MTSHCODE AS SHCODE,
+        MTD_ABCODE AS ABCODEM,
+        AB_NAME AS ABNAME,
+       	MTD_MTTLNUMBER AS TLNUMBER,
+        MTD_MTDETAIL AS MTDETAIL
+		FROM MTD INNER JOIN AB ON MTD_ABCODE = AB_CODE
+		WHERE MTD_MTSHCODE=#{shCode} AND MTD_ABCODE=#{abCode}
+	</select>		
+	
+	<insert id="insertCheckList">
+		INSERT INTO CL(CL_MTSHCODE,CL_ABCODE,CL_MTTLNUMBER,CL_MTDETAIL,CL_CHECK) VALUES(#{shCode},#{abCode},#{tlNumber},#{mtDetail},#{tf})
+	</insert>	
+	
+	<!-- 검색 관련 -->
+
+	<select id="albaApplyShopNameSearch" resultType="icia.oap.beans.AlbaBean">
+		SELECT SH_CODE AS "SHCODE",
+		       SH_NAME AS "SHNAME",
+		       SH_TYPE AS "SHTYPE",
+		       SH_ADDR AS "SHADDR",
+		       SH_TEL AS "SHTEL"
+		FROM SH
+		WHERE SH_APPLYSTATE = 'I' AND SH_NAME LIKE '%'||#{keyWord}||'%'
+	</select>	
+	
+	<select id="albaApplyShopAddressSearch" resultType="icia.oap.beans.AlbaBean">
+		SELECT SH_CODE AS "SHCODE",
+		       SH_NAME AS "SHNAME",
+		       SH_TYPE AS "SHTYPE",
+		       SH_ADDR AS "SHADDR",
+		       SH_TEL AS "SHTEL"
+		FROM SH
+		WHERE SH_APPLYSTATE = 'I' AND SH_ADDR LIKE '%'||#{keyWord}||'%' 
+	</select>			
+			
+	<!-- 지원하기 (insert) 전에 내가 이 매장에 이미 근무하고있는지 체크하기 위한것 -->
+	<select id="isAlreadyApplyInfo" resultType="int">
+		SELECT COUNT(*) 
+		FROM SIA
+		WHERE SIA_SHCODE = #{shCode} AND SIA_ABCODE = #{abCode}
+	</select>		
+	
+	
+	
+	<!-- 알바생정보 조회 -->
+	<select id="getAlbaInfo" resultType="icia.oap.beans.AlbaBean">
+		<![CDATA[
+		select ab_code as abCode, ab_id as abId, ab_pw as abPw ,ab_name as abName,ab_birth as abBirth,ab_gender as abGender,
+		ac_bankname as acBankName, ac_account as acAccount from ab
+		inner join ac on ac.ac_abcode = ab.ab_code where ab.ab_code = #{abCode}
+		group by ab.ab_code,ab.ab_id,ab.ab_pw,ab.ab_name,ab.ab_birth,ab.ab_gender,ac.ac_bankname,ac.ac_account
+		]]>
+	</select>
+	
+	<!-- 이름 수정 -->
+	<update id="editName" >
+		<![CDATA[
+		update AB set AB_NAME = #{abName} where AB_CODE =#{abCode} 
+	 	]]> 
+	</update>
+	
+	<!-- 계좌 수정 -->
+	<update id="editAccount" >
+		<![CDATA[
+		update AC
+		set AC_BANKNAME = #{editAcBankName},
+			AC_ACCOUNT = #{editAcAccount}
+		where AC_ABCODE = #{abCode} and AC_ACCOUNT = #{acAccount}
+	 	]]> 
+	</update>
+	
+	<!-- 계좌 삭제 -->
+	<delete id="deleteAccount" >
+		<![CDATA[
+		DELETE FROM AC
+		WHERE AC_ABCODE = #{abCode} AND AC_ACCOUNT = #{acAccount}
+	 	]]> 
+	</delete>
+	
+	<!-- 계좌 삭제하기 전 ss테이블 있는지 확인 -->
+	<select id="countSsAccount" resultType="int">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM SS
+		WHERE SS_ABCODE = #{abCode} AND SS_ACCOUNT = #{acAccount}
+		]]>
+	</select>
+	
+	<!-- 계좌 삭제하기 전 sia테이블 있는지 확인 -->
+	<select id="countSiaAccount" resultType="int">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM SIA
+		WHERE SIA_ABCODE = #{abCode} AND SIA_ACCOUNT = #{acAccount}
+		]]>
+	</select>
+	
+	<!-- 계좌 추가 -->
+	<insert id="addAccount" >
+		<![CDATA[
+		INSERT INTO AC (AC_ABCODE, AC_BANKNAME, AC_ACCOUNT)
+		VALUES(#{abCode}, #{acBankName}, #{acAccount})
+	 	]]> 
+	</insert>
+	
+	
+	<!-- 비밀번호 수정 -->
+	<update id="editPassword" >
+		<![CDATA[
+	 	update AB set AB_PW =#{abPw} where AB_CODE =#{abCode}
+	]]> 
+	</update>	
+	
+	
+	<select id="getAlbaScheduleList" resultType="icia.oap.beans.AlbaBean">
+		SELECT  SC_SIASHCODE AS SHCODE,
+		        SH_NAME AS SHNAME,
+		        SC_SIAABCODE AS ABCODE,
+		        AB_NAME AS ABNAME,
+		        SC_STARTTIME AS STARTTIME,
+		        SC_ENDTIME AS ENDTIOME,
+		        SC_STCODE AS STCODE,
+		        ST_COMMENT AS STCOMMENT
+		FROM SC INNER JOIN SH ON SC_SIASHCODE=SH_CODE
+		        INNER JOIN AB ON SC_SIAABCODE=AB_CODE
+		        INNER JOIN ST ON SC_STCODE=ST_CODE
+		WHERE SC_SIAABCODE=#{abCode} AND SC_STCODE=#{stCode}
+	</select>			
+	
+	<select id="countAlbaSchedule" resultType="int">
+		SELECT COUNT(*) FROM SC WHERE SC_STCODE=#{stCode} AND SC_SIAABCODE=#{abCode}
+	</select>		
+			
+</mapper>	
+
+
+
+
+
+
+
+
+
